@@ -1,2 +1,2 @@
-export * as AuthSchema from './auth.shema'
+export const UserModel = require('./auth.module')
 
