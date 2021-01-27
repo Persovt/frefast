@@ -4,12 +4,13 @@ const express = require('express');
 import { Router } from 'express';
 import routes from './routes/index';
 const bodyParser = require('body-parser')
-
+const cookieParser = require('cookie-parser')
 const app = express()
 const PORT = config.get('PORT') | 5000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 app.use('/', routes)
 

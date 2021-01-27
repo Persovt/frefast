@@ -1,13 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
-const axios = require('axios');
+import { createSlice, createAction } from '@reduxjs/toolkit'
+
 
 const initialState: any = {
     error: '', 
     fetching: false,
     currectInput: {
 
-    }
+    },
+    data: {
+
+    },
+    loggin: false
 };
+
+ export const AuthFetchServerAC = createAction('AUTH_FETCHED_SERVER')
+ export const RegFetchServerAC = createAction('REG_FETCHED_SERVER')
+ export const ValidateTokenFetchServerAC = createAction('VALIDATE_TOKEN_FETCHED_SERVER')
 
 const productReleases = createSlice({
     name: 'Auth',
@@ -17,32 +25,15 @@ const productReleases = createSlice({
             state.currectInput[action.payload.name] = action.payload.value
             console.log(action.payload, state)
         },
-        fetchingReducer: async (state, action) => {
-            //state.fetching = true;
-    try {
-        const res = await fetch('/auth/login', {
-            method: 'POST',
-
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email: state.currectInput.email, password: state.currectInput.password})
-
-        })
-
-
-        const data = await res.json()
-
-        if (!res.ok) {
-            throw new Error(data.message || 'Error data')
+        setDataAC: (state, action) => {
+            state.data = action.payload
+            console.log(action.payload, state)
+        },
+        ChangeAuthStatusAc: (state, action) => {
+            state.loggin = action.payload
         }
-        console.log(res)
-        console.log(data)
-    }catch (error) {
-        console.log(error.message)
-
-    }
-   // state.fetching = false;
-            state = state
-        }
+        
+        
     }
 })
 
@@ -50,7 +41,8 @@ const { actions, reducer } = productReleases;
 
 export const {
     inputReducer,
-    fetchingReducer
+    setDataAC,ChangeAuthStatusAc
+
 } = actions;
 
 export default reducer;

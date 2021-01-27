@@ -1,9 +1,12 @@
+import { Schema } from "inspector"
+
 const {Schema, model} = require('mongoose')
 
- const UserModel = new Schema({
+ const UserShema = new Schema({
      email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
+    role: String
 })
 
-module.exports = (model('User', UserModel))
+export default model('User', UserShema)
 //export default {RegisterSchema,LoginSchema}
