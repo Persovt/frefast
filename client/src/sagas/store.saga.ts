@@ -1,4 +1,4 @@
-import { setStoreProductAC } from "../state/auth.reducer";
+import { StoreSetProductAC } from "../state/reducer/store.reducer";
 import { put } from "redux-saga/effects";
 const axios = require("axios").default;
 
@@ -29,7 +29,7 @@ function* LoadProduct() {
   try {
     const res = yield axios.get("/store/LoadProduct");
 
-    yield put(setStoreProductAC(res.data));
+    yield put(StoreSetProductAC(res.data));
   } catch (error) {
     console.log(error.response.data.message);
   }

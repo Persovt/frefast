@@ -50,7 +50,7 @@ class Admin extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    data: state.data,
+    data: state.authReducer.data,
   };
 };
 

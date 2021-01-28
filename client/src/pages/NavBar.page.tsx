@@ -4,10 +4,10 @@ import { Menu } from "antd";
 import { ShopOutlined, HomeOutlined } from "@ant-design/icons";
 import { Drawer, Space, Input, Button } from "antd";
 import {
-  inputReducer,
-  AuthFetchServerAC,
-  RegFetchServerAC,
-} from "../state/auth.reducer";
+  AuthInputAC,
+  AuthLoginFetchServerAc,
+  AuthRegFetchServerAc,
+} from "../state/reducer/auth.reducer";
 import { EyeTwoTone, EyeInvisibleOutlined } from "@ant-design/icons";
 import { CgProfile } from "react-icons/cg";
 import { BsPeople } from "react-icons/bs";
@@ -122,7 +122,7 @@ class NavBar extends React.Component<any, any> {
               placeholder="input email"
               name="email"
               onChange={(e: any) =>
-                this.props.inputReducer(this.changeHandler(e))
+                this.props.AuthInputAC(this.changeHandler(e))
               }
             />
 
@@ -130,7 +130,7 @@ class NavBar extends React.Component<any, any> {
               placeholder="input password"
               name="password"
               onChange={(e: any) =>
-                this.props.inputReducer(this.changeHandler(e))
+                this.props.AuthInputAC(this.changeHandler(e))
               }
               iconRender={(visible) =>
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -139,7 +139,7 @@ class NavBar extends React.Component<any, any> {
             <Space direction="horizontal">
               <Button
                 onClick={() =>
-                  this.props.AuthFetchServerAC({
+                  this.props.AuthLoginFetchServerAc({
                     email: this.props.email,
                     password: this.props.password,
                   })
@@ -149,7 +149,7 @@ class NavBar extends React.Component<any, any> {
               </Button>
               <Button
                 onClick={() =>
-                  this.props.RegFetchServerAC({
+                  this.props.AuthRegFetchServerAc({
                     email: this.props.email,
                     password: this.props.password,
                   })
@@ -167,15 +167,15 @@ class NavBar extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    role: state.data.role,
-    loggin: state.loggin,
-    email: state.currectInput.email,
-    password: state.currectInput.password,
+    role: state.authReducer.data.role,
+    loggin: state.authReducer.loggin,
+    email: state.authReducer.currectInput.email,
+    password: state.authReducer.currectInput.password,
   };
 };
 
 export default connect(mapStateToProps, {
-  AuthFetchServerAC,
-  RegFetchServerAC,
-  inputReducer,
+  AuthLoginFetchServerAc,
+  AuthInputAC,
+  AuthRegFetchServerAc,
 })(NavBar);

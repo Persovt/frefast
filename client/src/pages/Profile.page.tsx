@@ -17,10 +17,9 @@ class Profile extends React.Component<any, any> {
           <p>Email: {this.props.data.email}</p>
           <p>Id: {this.props.data.userId}</p>
           <p>Role: {this.props.data.role}</p>
-          
+
           <Divider orientation="left">Zakaz</Divider>
           <List
-
             bordered
             dataSource={data}
             renderItem={(item) => (
@@ -37,7 +36,7 @@ class Profile extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    data: state.data,
+    data: state.authReducer.data,
   };
 };
 

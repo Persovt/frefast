@@ -1,17 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ValidateTokenFetchServerAC } from "./state/auth.reducer";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { AuthValidateTokenFetchServerAc } from "./state/reducer/auth.reducer";
+
 import { Main, Cart, Store, Profile, NavBar, Admin } from "./pages/index.page";
 import "antd/dist/antd.css";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Route,
   BrowserRouter as Router,
   Switch,
   Redirect,
 } from "react-router-dom";
-
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
@@ -19,14 +21,15 @@ class App extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.props.ValidateTokenFetchServerAC();
+    if (this.props.accesToken)
+      this.props.AuthValidateTokenFetchServerAc();
   }
 
   componentDidUpdate() {
     if (this.props.accesToken)
     
       setInterval(() => {
-        this.props.ValidateTokenFetchServerAC();
+        this.props.AuthValidateTokenFetchServerAc();
       }, 100000);
   }
 
@@ -108,11 +111,12 @@ class App extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    role: state.data.role,
-    loggin: state.loggin
+    role: state.authReducer.data.role,
+    loggin: state.authReducer.loggin,
+    accesToken: cookies.get("accesToken")
   };
 };
 
 export default connect(mapStateToProps, {
-  ValidateTokenFetchServerAC,
+  AuthValidateTokenFetchServerAc,
 })(App);

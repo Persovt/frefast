@@ -12,15 +12,15 @@ import {
 import { takeEvery } from "redux-saga/effects";
 
 function* watchFetchDog() {
-  yield takeEvery("AUTH_FETCHED_SERVER", AuthfetchServerAsync);
-  yield takeEvery("REG_FETCHED_SERVER", RegfetchServerAsync);
+  yield takeEvery("Auth/AuthLoginFetchServerAc", AuthfetchServerAsync);
+  yield takeEvery("Auth/AuthRegFetchServerAc", RegfetchServerAsync);
   yield takeEvery(
-    "VALIDATE_TOKEN_FETCHED_SERVER",
+    "Auth/AuthValidateTokenFetchServerAc",
     ValidateTokenfetchServerAsync
   );
-  yield takeEvery("ADD_NEW_PRODUCT_SERVER_AC", AddNewProduct);
-  yield takeEvery("SET_PRODUCTS_FETCH_SERVER_AC", LoadProduct);
-  yield takeEvery("DELETE_PRODUCTS_FETCH_SERVER_AC", DeleteProduct);
-  yield takeEvery("REDACT_PRODUCTS_FETCH_SERVER_AC", RedactProduct);
+  yield takeEvery("Store/StoreAddProductFetchServerAC", AddNewProduct);
+  yield takeEvery("Store/StoreLoadProductFetchServerAC", LoadProduct);
+  yield takeEvery("Store/StoreDeleteProductFetchServerAC", DeleteProduct);
+  yield takeEvery("Store/StoreRedactProductFetchServerAC", RedactProduct);
 }
 export default watchFetchDog;

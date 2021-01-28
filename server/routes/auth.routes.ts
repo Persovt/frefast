@@ -44,8 +44,9 @@ AuthRouter.post("/login", async function (req, res) {
       res.status("400").json({ message: "Password incorrect" });
 
     const cons = await RefreshModel.find({ userId: user.id });
-    //console.log(cons.length,cons)
+    
     if (cons.length > 4) {
+       
       RefreshModel.deleteOne(
         { refreshToken: cons[0].refreshToken },
         function (err) {
@@ -90,9 +91,10 @@ AuthRouter.post("/refresh-tokens", async function (req, res) {
   try {
     const { visitorId } = req.body;
     const { refreshToken } = req.cookies;
-
+    if (!refreshToken) return res.status(400).json({ message: "No refresh token" });
+  
     const candidat = await RefreshModel.find({ refreshToken });
-
+    
     if (candidat[0].fingerprint !== visitorId) {
       RefreshModel.deleteOne({ refreshToken: refreshToken }, function (err) {
         if (err) throw err;

@@ -5,11 +5,13 @@ const StoreRouter = Router();
 
 StoreRouter.post("/addNewProduct", async function (req, res) {
   try {
-    const { nameProduct, imageUrl, descriprionProduct } = req.body;
+    const { nameProduct, imageUrl, descriprionProduct,priceProduct,visiblePriceProduct } = req.body;
     const newProduct = new StoreModel({
       //img: imageUrl,
       name: nameProduct,
       description: descriprionProduct,
+      price: priceProduct,
+      visiblePrice: visiblePriceProduct
     });
     newProduct.save();
     res.status(201).json({ message: "Product create" });

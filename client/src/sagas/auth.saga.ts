@@ -1,7 +1,7 @@
 import { put } from "redux-saga/effects";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import Cookies from "universal-cookie";
-import { setDataAC, ChangeAuthStatusAc } from "../state/auth.reducer";
+import { AuthSetDataAC, AuthChangeStatusAC } from "../state/reducer/auth.reducer";
 
 const axios = require("axios").default;
 const cookies = new Cookies();
@@ -38,8 +38,8 @@ function* ValidateTokenfetchServerAsync() {
       accesToken: cookies.get("accesToken"),
     });
 
-    yield put(setDataAC(res.data));
-    yield put(ChangeAuthStatusAc(true));
+    yield put(AuthSetDataAC(res.data));
+    yield put(AuthChangeStatusAC(true));
   } catch (error) {
     yield RefreshTokenfetchServerAsync();
     console.log(error.response.data.message);
@@ -58,7 +58,7 @@ function* RefreshTokenfetchServerAsync(): any {
 
     yield ValidateTokenfetchServerAsync();
   } catch (error) {
-    yield put(ChangeAuthStatusAc(false));
+    yield put(AuthChangeStatusAC(false));
     console.log(error.response.data.message);
   }
 }
