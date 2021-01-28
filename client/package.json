@@ -12,6 +12,7 @@
     "@types/react-router": "^5.1.11",
     "antd": "^4.10.3",
     "axios": "^0.21.1",
+    "base64-img": "^1.0.4",
     "bootstrap": "^4.6.0",
     "cookies-ts": "^1.0.5",
     "jsonwebtoken": "^8.5.1",
