@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Container } from "react-bootstrap";
 import { Row, Col, Image } from "antd";
 
-class MainPage extends React.Component {
+class ProductPage extends React.Component {
   render() {
     return (
       <>
@@ -29,4 +29,6 @@ const mapStateToProps = (state: any) => {
   return {};
 };
 
-export default connect(mapStateToProps, {})(MainPage);
+export default connect(mapStateToProps, {
+    
+})(ProductPage);

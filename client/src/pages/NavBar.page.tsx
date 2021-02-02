@@ -8,6 +8,7 @@ import {
   AuthLoginFetchServerAc,
   AuthRegFetchServerAc,
 } from "../state/reducer/auth.reducer";
+import { NavBarChangeVisibleAuthSideBarAC } from "../state/reducer/navbar.reducer";
 import { EyeTwoTone, EyeInvisibleOutlined } from "@ant-design/icons";
 import { CgProfile } from "react-icons/cg";
 import { BsPeople } from "react-icons/bs";
@@ -19,103 +20,77 @@ class NavBar extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
   }
-  state = {
-    current: "main",
-    setVisible: false,
-  };
 
   changeHandler = (event: any) => {
     return { value: event.target.value, name: event.target.name };
   };
-  handleClick = (e: any) => {
-    console.log("click ", e);
-    this.setState({ current: e.key });
-  };
-
-  showDrawer = () => {
-    this.setState({ setVisible: true });
-  };
-  onClose = () => {
-    this.setState({ setVisible: false });
-  };
 
   render() {
-    const { current } = this.state;
-    let AuthButton;
-    let AdminButton;
-
-    if (!this.props.loggin) {
-      AuthButton = (
-        <Menu.Item
-          key="Auth"
-          onClick={this.showDrawer}
-          icon={<BsPeople />}
-          style={{ flexGrow: 1, textAlign: "center" }}
-        >
-          Auth
-        </Menu.Item>
-      );
-    } else {
-      if (this.props.role == "user")
-        AdminButton = (
-          <Menu.Item
-            key="Admin"
-            icon={<RiAdminLine />}
-            style={{ flexGrow: 1, textAlign: "center" }}
-          >
-            <Link to="/admin">Admin</Link>
-          </Menu.Item>
-        );
-
-      AuthButton = (
-        <Menu.Item
-          key="Profile"
-          icon={<CgProfile />}
-          style={{ flexGrow: 1, textAlign: "center" }}
-        >
-          <Link to="/profile">Profile</Link>
-        </Menu.Item>
-      );
-    }
     return (
       <>
         <Menu
-          onClick={this.handleClick}
-          selectedKeys={[current]}
+          onClick={() => this.forceUpdate()}
+          selectedKeys={[window.location.pathname]}
           mode="horizontal"
           style={{ justifyContent: "space-between", display: "flex" }}
         >
           <Menu.Item
-            key="main"
+            key="/main"
             icon={<HomeOutlined />}
             style={{ flexGrow: 1, textAlign: "center" }}
           >
-            <Link to="/">Main</Link>
+            <Link to="/main">Main</Link>
           </Menu.Item>
           <Menu.Item
-            key="cart"
+            key="/cart"
             icon={<GiShoppingCart />}
             style={{ flexGrow: 1, textAlign: "center" }}
           >
             <Link to="/cart">Cart</Link>
           </Menu.Item>
           <Menu.Item
-            key="Store"
+            key="/store"
             icon={<ShopOutlined />}
             style={{ flexGrow: 1, textAlign: "center" }}
           >
             <Link to="/store">Store</Link>
           </Menu.Item>
-          {AuthButton}
-          {AdminButton}
+
+          {this.props.role ? (
+            <Menu.Item
+              key="/Profile"
+              icon={<CgProfile />}
+              style={{ flexGrow: 1, textAlign: "center" }}
+            >
+              <Link to="/profile">Profile</Link>
+            </Menu.Item>
+          ) : (
+            <Menu.Item
+              key="/Auth"
+              onClick={() => this.props.NavBarChangeVisibleAuthSideBarAC(true)}
+              icon={<BsPeople />}
+              style={{ flexGrow: 1, textAlign: "center" }}
+            >
+              Auth
+            </Menu.Item>
+          )}
+          {this.props.role === "admin" ? (
+            <Menu.Item
+              key="/Admin"
+              icon={<RiAdminLine />}
+              style={{ flexGrow: 1, textAlign: "center" }}
+            >
+              <Link to="/admin">Admin</Link>
+            </Menu.Item>
+          ) : null}
         </Menu>
 
         <Drawer
           title="Authoriz"
           placement="right"
           closable={false}
-          onClose={this.onClose}
-          visible={this.state.setVisible}
+          onClose={() => this.props.NavBarChangeVisibleAuthSideBarAC(false)}
+          visible={this.props.loggin ? false : this.props.visibleAuthSideBar}
         >
           <Space direction="vertical">
             <Input
@@ -167,6 +142,7 @@ class NavBar extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   return {
+    visibleAuthSideBar: state.navbarReducer.visibleAuthSideBar,
     role: state.authReducer.data.role,
     loggin: state.authReducer.loggin,
     email: state.authReducer.currectInput.email,
@@ -175,6 +151,7 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps, {
+  NavBarChangeVisibleAuthSideBarAC,
   AuthLoginFetchServerAc,
   AuthInputAC,
   AuthRegFetchServerAc,

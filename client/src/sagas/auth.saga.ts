@@ -20,7 +20,7 @@ function* AuthfetchServerAsync(action: any) {
   try {
     const fp = yield FingerprintJS.load();
     const result = yield fp.get();
-
+    console.log(result)
     yield axios.post("/auth/login", {
       email: action.payload.email,
       password: action.payload.password,
@@ -50,7 +50,7 @@ function* RefreshTokenfetchServerAsync(): any {
   try {
     const fp = yield FingerprintJS.load();
     const result = yield fp.get();
-
+    
     yield axios.post("/auth/refresh-tokens", {
       refreshToken: cookies.get("refreshToken"),
       visitorId: result.visitorId,

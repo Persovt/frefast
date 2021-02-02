@@ -2,63 +2,78 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: any = {
   storeProducts: {},
-  currectInput: {},
+  currectInput: {
+    typeProduct: 'product'
+  },
   cartProducts: {},
   visibleCreateModel: false,
   visibleRedactModel: false,
-  currectId: ''
+  currectId: "",
+  uploadImageLoading: false,
+  hoverAddCartButton: false,
 };
 
 const productReleases = createSlice({
   name: "Store",
   initialState,
   reducers: {
-    StoreAddProductFetchServerAC: (state,action) => {
-        state.visibleCreateModel = false
+    StoreAddProductFetchServerAC: (state, action) => {
+      state.visibleCreateModel = false;
     },
     StoreLoadProductFetchServerAC: () => {},
-    StoreRedactProductFetchServerAC: (state,action) => {
-        state.visibleRedactModel = false
+    StoreRedactProductFetchServerAC: (state, action) => {
+      state.visibleRedactModel = false;
     },
     StoreDeleteProductFetchServerAC: (state, action) => {
-        state.visibleRedactModel = false
+      state.visibleRedactModel = false;
     },
     StoreInputAC: (state, action) => {
-        console.log(action)
+     
       state.currectInput[action.payload.name] = action.payload.value;
-      console.log(action.payload, state);
+     
     },
     StoreSetProductAC: (state, action) => {
       state.storeProducts = action.payload;
-      console.log(action.payload, state);
+     
     },
     StoreChangeVisibleCreateModelAC: (state, action) => {
-        console.log(action.payload)
-        state.visibleCreateModel =  action.payload
-      },
-      StoreChangeVisibleRedactModelAC: (state, action) => {
-        state.visibleRedactModel =  action.payload
+      console.log(action.payload);
+      state.visibleCreateModel = action.payload;
+    },
+    StoreChangeVisibleRedactModelAC: (state, action) => {
+      state.visibleRedactModel = action.payload;
 
-        if(action.payload) state.currectId = ''
-      },
-      StoreSetCurrectIdAC: (state, action) => {
-        state.currectId = action.payload  
-      },
+      if (action.payload) state.currectId = "";
+    },
+    StoreSetCurrectIdAC: (state, action) => {
+      state.currectId = action.payload;
+    },
+    StoreSetStatusUploadingAC: (state, action) => {
+      state.uploadImageLoading = action.payload;
+    },
+    StoreHoverAddCartButtonAC: (state, action) => {
+      console.log(action)
+      state.storeProducts[action.payload.id].visibleCart = action.payload.value
+      //state.hoverAddCartButton = action.payload;
+    },
   },
 });
 
 const { actions, reducer } = productReleases;
 
 export const {
-    StoreSetCurrectIdAC,
-    StoreChangeVisibleCreateModelAC,
-    StoreChangeVisibleRedactModelAC,
+  StoreSetCurrectIdAC,
+  StoreHoverAddCartButtonAC,
+  StoreSetStatusUploadingAC,
+  StoreChangeVisibleCreateModelAC,
+  StoreChangeVisibleRedactModelAC,
   StoreAddProductFetchServerAC,
   StoreInputAC,
   StoreLoadProductFetchServerAC,
   StoreRedactProductFetchServerAC,
   StoreDeleteProductFetchServerAC,
-  StoreSetProductAC
+ 
+  StoreSetProductAC,
 } = actions;
 
 export default reducer;

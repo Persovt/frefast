@@ -1,8 +1,11 @@
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: any = {
-  cartProducts: {},
+  cartProducts: [],
   currectInput: {},
+  visibleConfirmModel: false,
+  cartTypes: [],
 };
 
 const productReleases = createSlice({
@@ -14,11 +17,16 @@ const productReleases = createSlice({
       console.log(action.payload, state);
     },
     CartAddProductAC: (state, action) => {
-      //state.currectInput[action.payload.name] = action.payload.value;
-      console.log(action.payload, state);
+    
+     state.cartTypes = Array.from(new Set([...state.cartTypes, action.payload.typeProduct]))
+      state.cartProducts =  [...state.cartProducts, action.payload]
     },
     CartDeleteProductAC: (state, action) => {},
     CartChangeProductAC: (state, action) => {},
+    CartOpenConfirmModelAC: (state, action) => {
+      state.visibleConfirmModel = action.payload
+      
+    },
   },
 });
 
@@ -28,7 +36,9 @@ export const {
   CartDeleteProductAC,
   CartAddProductAC,
   CartChangeProductAC,
-  CartInputAC
+  CartInputAC,
+  CartOpenConfirmModelAC,
+  
 } = actions;
 
 export default reducer;
