@@ -186,7 +186,7 @@ class Store extends React.Component<any, any> {
                           }}
                         />
                         <p className="card__body-name card__body-text">
-                          {" "}
+                         
                           {item.name}
                         </p>
                         {!item.visibleCart ? (

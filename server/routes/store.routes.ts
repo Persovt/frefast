@@ -60,7 +60,8 @@ StoreRouter.post("/addNewProduct", async function (req, res) {
       amount: amountProduct,
       shopName: siteName,
       typeProduct,
-      visibleCart: false
+      visibleCart: false,
+      cheackCart: false
     });
 
     newProduct.save();

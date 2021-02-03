@@ -9,7 +9,8 @@ const StoreShema = new Schema({
   amount: { type: Number },
   shopName: { type: String, required: true },
   typeProduct: { type: String },
-  visibleCart: Boolean
+  visibleCart: Boolean,
+  cheackCart: Boolean
 });
 
 export default model("Store", StoreShema);

@@ -5,22 +5,20 @@ import { Row, Col, Image } from "antd";
 
 class MainPage extends React.Component {
   render() {
+    console.log(window.innerWidth);
     return (
       <>
-       
-          <Row>
-            <Col span={24}>
-              <img
-                style={{
-                  width: 795,
-                  height: 200,
-                }}
-                src="https://i.postimg.cc/tRx6Swj0/FREFAST.jpg"
-                alt=""
-              />
-            </Col>
-          </Row>
-        
+        <div
+          className=""
+          style={{
+            backgroundImage:
+              "url(" + "https://i.postimg.cc/tRx6Swj0/FREFAST.jpg" + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+           
+            height: window.innerWidth / 4,
+          }}
+        ></div>
       </>
     );
   }
