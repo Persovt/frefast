@@ -1,4 +1,3 @@
-import { Schema } from "inspector";
 
 const { Schema, model } = require("mongoose");
 
@@ -10,6 +9,5 @@ const RefreshModel = new Schema({
   createdAt: String,
   status: String,
 });
+module.exports = model("Refresh", RefreshModel);
 
-export default model("Refresh", RefreshModel);
-//export default {RegisterSchema,LoginSchema}

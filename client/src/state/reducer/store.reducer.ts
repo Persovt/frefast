@@ -56,6 +56,11 @@ const productReleases = createSlice({
       state.storeProducts[action.payload.id].visibleCart = action.payload.value
       //state.hoverAddCartButton = action.payload;
     },
+    StoreAddCartButtonAC: (state, action) => {
+      console.log(action)
+      state.storeProducts[action.payload.id].inCart = action.payload.value
+      //state.hoverAddCartButton = action.payload;
+    },
   },
 });
 
@@ -69,6 +74,7 @@ export const {
   StoreChangeVisibleRedactModelAC,
   StoreAddProductFetchServerAC,
   StoreInputAC,
+  StoreAddCartButtonAC,
   StoreLoadProductFetchServerAC,
   StoreRedactProductFetchServerAC,
   StoreDeleteProductFetchServerAC,

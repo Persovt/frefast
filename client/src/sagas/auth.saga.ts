@@ -8,7 +8,7 @@ const cookies = new Cookies();
 
 function* RegfetchServerAsync(action: any) {
   try {
-    yield axios.post("/auth/register", {
+    yield axios.post("auth/register", {
       email: action.payload.email,
       password: action.payload.password,
     });
@@ -18,10 +18,11 @@ function* RegfetchServerAsync(action: any) {
 }
 function* AuthfetchServerAsync(action: any) {
   try {
+    
     const fp = yield FingerprintJS.load();
     const result = yield fp.get();
     console.log(result)
-    yield axios.post("/auth/login", {
+    yield axios.post("/api/auth/login", {
       email: action.payload.email,
       password: action.payload.password,
       visitorId: result.visitorId,
@@ -34,7 +35,7 @@ function* AuthfetchServerAsync(action: any) {
 }
 function* ValidateTokenfetchServerAsync() {
   try {
-    const res = yield axios.post("/auth/verifyToken", {
+    const res = yield axios.post("/api/auth/verifyToken", {
       accesToken: cookies.get("accesToken"),
     });
 
@@ -51,7 +52,7 @@ function* RefreshTokenfetchServerAsync(): any {
     const fp = yield FingerprintJS.load();
     const result = yield fp.get();
     
-    yield axios.post("/auth/refresh-tokens", {
+    yield axios.post("/api/auth/refresh-tokens", {
       refreshToken: cookies.get("refreshToken"),
       visitorId: result.visitorId,
     });

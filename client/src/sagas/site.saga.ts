@@ -5,7 +5,7 @@ function* cheackSite(action: any): any {
     try {
         
        console.log(action.payload)
-      const res = yield axios.post("/site/cheackSite", {siteName: action.payload});
+      const res = yield axios.post("/api/site/cheackSite", {siteName: action.payload});
   
       console.log(res.data)
      
@@ -18,7 +18,7 @@ function* cheackSite(action: any): any {
     try {
         const { siteName } = action.payload
        console.log(action.payload)
-      const res = yield axios.post("/site/addSite", {siteName});
+      const res = yield axios.post("/api/site/addSite", {siteName});
   
       console.log(res.data)
      

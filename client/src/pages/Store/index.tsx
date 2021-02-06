@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsPlusCircle, BsCheck } from "react-icons/bs";
 import { SettingOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
   StoreChangeVisibleCreateModelAC,
   StoreLoadProductFetchServerAC,
   StoreSetCurrectIdAC,
+  StoreAddCartButtonAC,
 } from "../../state/reducer/store.reducer";
 import "./Store.css";
 import { CartAddProductAC } from "../../state/reducer/cart.reducer";
@@ -186,26 +187,42 @@ class Store extends React.Component<any, any> {
                           }}
                         />
                         <p className="card__body-name card__body-text">
-                         
                           {item.name}
                         </p>
-                        {!item.visibleCart ? (
-                          <div className="">
-                            <p className="card__body-price card__body-text">
-                              {item.price ? `${item.price} ₽` : "FREE"}
-                            </p>
-                            <p className="card__body-amount card__body-text">
-                              Осталось: {item.amount}
-                            </p>
-                          </div>
+
+                        {!item.inCart ? (
+                          !item.visibleCart ? (
+                            <div className="">
+                              <p className="card__body-price card__body-text">
+                                {item.price ? `${item.price} ₽` : "FREE"}
+                              </p>
+                              <p className="card__body-amount card__body-text">
+                                Осталось: {item.amount}
+                              </p>
+                            </div>
+                          ) : (
+                            <Button
+                              disabled={item.amount === 0}
+                              style={{ height: 54, width: "100%" }}
+                              onClick={() => {
+                                this.props.StoreAddCartButtonAC({
+                                  id: index,
+                                  value: true,
+                                });
+                                this.props.CartAddProductAC(item);
+                              }}
+                              className="card-price card__body-text"
+                            >
+                              <ShoppingCartOutlined key="cart" />
+                            </Button>
+                          )
                         ) : (
                           <Button
-                            disabled={item.amount === 0}
+                            disabled={true}
                             style={{ height: 54, width: "100%" }}
-                            onClick={() => this.props.CartAddProductAC(item)}
                             className="card-price card__body-text"
                           >
-                            <ShoppingCartOutlined key="cart" />
+                            <BsCheck />
                           </Button>
                         )}
 
@@ -256,6 +273,7 @@ const mapStateToProps = (state: any) => {
     storeProducts: state.storeReducer?.storeProducts,
     cartProducts: state.cartReducer?.cartProducts,
     hoverAddCartButton: state.storeReducer.hoverAddCartButton,
+    inCart: state.storeReducer?.inCart,
   };
 };
 
@@ -265,6 +283,6 @@ export default connect(mapStateToProps, {
   StoreSetCurrectIdAC,
   StoreChangeVisibleRedactModelAC,
   StoreChangeVisibleCreateModelAC,
-
+  StoreAddCartButtonAC,
   StoreLoadProductFetchServerAC,
 })(Store);

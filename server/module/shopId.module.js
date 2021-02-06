@@ -1,4 +1,4 @@
-import { Schema } from "inspector";
+
 const { Schema, model } = require("mongoose");
 
 const ShopIDShema = new Schema({
@@ -6,4 +6,5 @@ const ShopIDShema = new Schema({
   Name: { type: String, required: true, unique: true },
 });
 
-export default model("ShopId", ShopIDShema);
+module.exports = model("ShopId", ShopIDShema);
+

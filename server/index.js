@@ -1,20 +1,24 @@
 const config = require("config");
 const mongoose = require("mongoose");
 const express = require("express");
-import { Router } from "express";
-import routes from "./routes/index";
-import generateId from "./generateID";
+//import routes from "./routes/index";
+const routes = require('./routes/index')
+
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+
 const app = express();
-const PORT = config.get("PORT") | 5000;
+const PORT = config.get("PORT") ;
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //app.use(bodyParser.raw());
 app.use(cookieParser());
 
-app.use("/", routes);
+
+
+app.use("/api/", routes);
 
 const start = (async () => {
   try {
@@ -23,8 +27,8 @@ const start = (async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    app.listen(PORT, () => console.log("server start on port: " + PORT));
-    generateId();
+    app.listen(5005, () => console.log("server start on port: " + 5005));
+  
   } catch (error) {
     console.log("server error start:" + error);
     process.exit();

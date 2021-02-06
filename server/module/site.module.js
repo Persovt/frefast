@@ -1,4 +1,4 @@
-import { Schema } from "inspector";
+
 const { Schema, model } = require("mongoose");
 
 const SiteShema = new Schema({
@@ -10,4 +10,5 @@ const SiteShema = new Schema({
   
 });
 
-export default model("Site", SiteShema);
+module.exports = model("Site", SiteShema);
+

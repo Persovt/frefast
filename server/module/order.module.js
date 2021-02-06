@@ -1,4 +1,3 @@
-import { Schema } from "inspector";
 
 const { Schema, model } = require("mongoose");
 
@@ -10,5 +9,4 @@ const OrderShema = new Schema({
  products: { type: Array  },
 });
 
-export default model("Order", OrderShema);
-//export default {RegisterSchema,LoginSchema}
+module.exports = model("Order", OrderShema);

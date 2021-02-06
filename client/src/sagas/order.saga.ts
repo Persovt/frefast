@@ -30,7 +30,7 @@ function* addOrderFetchServer(action: any): any {
         products,
       });
     if (siteName) {
-      const res = yield axios.post("/site/addSite", {
+      const res = yield axios.post("/apisite/addSite", {
         userId,
         siteName,
       });
@@ -45,7 +45,7 @@ function* loadOrderFetchServer(action: any): any {
   try {
     //const { siteName } = action.payload;
 
-    const res = yield axios.post("/order/loadOrder", {
+    const res = yield axios.post("/api/order/loadOrder", {
      // siteName
     });
     yield put(OrderSetAc(res.data))

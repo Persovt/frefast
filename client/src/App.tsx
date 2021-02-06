@@ -23,14 +23,20 @@ class App extends React.Component<any, any> {
   }
 
   componentDidMount() {
+    
+   
     this.props.SiteCheackFetchServerAC(window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast')
+
   // this.props.AuthInputAC({ value: window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast', name: 'siteName' })
     //cookies.set('siteName')
    this.props.AuthValidateTokenFetchServerAc();
   }
 
   componentDidUpdate() {
+  
     this.props.SiteCheackFetchServerAC(window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast')
+
+
     //this.props.AuthInputAC({ value: window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast', name: 'siteName' })
     if (this.props.accesToken)
       setInterval(() => {

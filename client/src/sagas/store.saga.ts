@@ -64,7 +64,7 @@ function* AddNewProduct(action: any) {
 
 function* DeleteProduct(action: any) {
   try {
-    yield axios.post("/store/deleteProduct", { id: action.payload.currectId });
+    yield axios.post("/api/store/deleteProduct", { id: action.payload.currectId });
 
     yield LoadProduct();
   } catch (error) {
@@ -74,7 +74,7 @@ function* DeleteProduct(action: any) {
 
 function* LoadProduct() {
   try {
-    const res = yield axios.get("/store/LoadProduct");
+    const res = yield axios.get("/api/store/LoadProduct");
 
     yield put(StoreSetProductAC(res.data));
   } catch (error) {
@@ -84,7 +84,7 @@ function* LoadProduct() {
 
 function* RedactProduct(action: any) {
   try {
-    yield axios.post("/store/redactProduct", action.payload);
+    yield axios.post("/api/store/redactProduct", action.payload);
 
     yield LoadProduct();
   } catch (error) {

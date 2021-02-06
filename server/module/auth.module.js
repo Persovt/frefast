@@ -1,5 +1,3 @@
-import { Schema } from "inspector";
-
 const { Schema, model } = require("mongoose");
 
 const UserShema = new Schema({
@@ -8,5 +6,4 @@ const UserShema = new Schema({
  
 });
 
-export default model("User", UserShema);
-//export default {RegisterSchema,LoginSchema}
+module.exports = model("User", UserShema)
