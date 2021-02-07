@@ -139,6 +139,10 @@ class App extends React.Component<any, any> {
           </Content>
           <Footer style={{ textAlign: "center",backgroundColor: 'white' }}>
            frefast.com ©2021 
+
+
+<a href="https://www.free-kassa.ru/"><img src="https://www.free-kassa.ru/img/fk_btn/9.png"/></a>
+
           </Footer>
         </Router>
       </>
