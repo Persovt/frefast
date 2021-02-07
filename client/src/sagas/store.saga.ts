@@ -21,7 +21,7 @@ function* uploadImageToServer(action: any) {
 
     const res = yield axios({
       method: "post",
-      url: "/store/createTimeFile",
+      url: "/api/store/createTimeFile",
       data: formData,
 
       headers: { "Content-Type": `multipart/form-data` },
@@ -37,13 +37,14 @@ function* AddNewProduct(action: any) {
   try {
     //const uploadImage = yield fetch(action.payload.uploadImage).then((r: any) => r.blob());
     console.log(action.payload)
+    console.log(123)
     const { amountProduct,descriprionProduct,nameProduct,uploadImage,priceProduct,typeProduct } = action.payload
    // console.log(amountProduct,descriprionProduct)
   //  const IdUploadFile = yield uploadImageToServer(uploadImage);
     //console.log(IdUploadFile)
      yield axios({
         method: 'post',
-        url: "/store/addNewProduct",
+        url: "/api/store/addNewProduct",
         data: {
           TimeImageId: yield uploadImageToServer(uploadImage),
           descriprionProduct,

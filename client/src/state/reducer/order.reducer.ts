@@ -12,10 +12,11 @@ const productReleases = createSlice({
   reducers: {
    OrderSetAc: (state, action) => {
      console.log(action.payload)
-      state.orders = action.payload.orders
+      state.orders = action.payload.orders.reverse()
    },
     OrderAddFetchServerAC: (state, action) => {},
     OrderLoadFetchServerAC: (state, action) => {},
+    OrderRedactFetchServerAC: (state, action) => {},
   },
 });
 
@@ -24,7 +25,8 @@ const { actions, reducer } = productReleases;
 export const {
     OrderAddFetchServerAC,
     OrderLoadFetchServerAC,
-    OrderSetAc
+    OrderSetAc,
+    OrderRedactFetchServerAC
 } = actions;
 
 export default reducer;

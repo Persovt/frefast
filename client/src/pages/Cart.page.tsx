@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import { Container } from "react-bootstrap";
 import { List, Avatar, Divider, Button, Modal, Input } from "antd";
 import { SiteAddFetchServerAC } from "../state/reducer/site.reducer";
-import { OrderAddFetchServerAC } from "../state/reducer/order.reducer";
+//import { CardOrderAddFetchServerAC } from "../state/reducer/order.reducer";
 import {
+  CartAddCountProductAC,
   CartOpenConfirmModelAC,
   CartInputAC,
+  CardOrderAddFetchServerAC,
 } from "../state/reducer/cart.reducer";
 class Cart extends React.Component<any, any> {
   changeHandler = (event: any) => {
@@ -20,14 +22,14 @@ class Cart extends React.Component<any, any> {
           title="Confirm order"
           visible={this.props.visibleConfirmModel}
           onOk={() => {
-            this.props.OrderAddFetchServerAC({
+            this.props.CardOrderAddFetchServerAC({
               siteName: this.props.siteName,
               adres: this.props.adres,
               city: this.props.city,
               street: this.props.street,
               index: this.props.index,
               userId: this.props.userId,
-              products: this.props.cartProducts
+              products: this.props.cartProducts,
             });
             this.props.CartOpenConfirmModelAC(false);
           }}
@@ -87,16 +89,66 @@ class Cart extends React.Component<any, any> {
           <List
             itemLayout="horizontal"
             dataSource={this.props.cartProducts}
-            renderItem={(item: any) => (
-              <List.Item>
+            renderItem={(item: any, index: any) => (
+              <List.Item style={{ display: "flex", alignItems: "center" }}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.img} />}
                   title={<a>{item.name}</a>}
                   description={item.description}
                 />
+                <p style={{ margin: 0, marginRight: 25 }}>
+                  Всего: {item.amount}
+                </p>
+                <p style={{ margin: 0, marginRight: 25 }}>
+                  Цена: {item.price ? item.price * item.count : 'free' }
+                </p>
+                <Button
+                  disabled={item.count > item.amount - 1}
+                  onClick={() =>
+                    this.props.CartAddCountProductAC({
+                      count: item.count + 1,
+                      index,
+                    })
+                  }
+                >
+                  +
+                </Button>
+                <Input
+                  value={item.count}
+                  type="number"
+                  placeholder="count"
+                  name="count"
+                  style={{ width: "100px", textAlign: "center" }}
+                  onChange={(e: any) =>
+                    this.props.CartInputAC(this.changeHandler(e))
+                  }
+                />
+                <Button
+                  onClick={() =>
+                    this.props.CartAddCountProductAC({
+                      count: item.count - 1,
+                      index,
+                    })
+                  }
+                >
+                  -
+                </Button>
               </List.Item>
             )}
           />
+          <div className="">Цена доставки: </div>
+          <div className="">
+            Итого:
+            {this.props.cartProducts.length
+              ? this.props.cartProducts.reduce(
+                  (prev: any, next: any) =>
+                    prev + (next.price * next.count),
+                  0
+                )
+              : null}
+             
+          </div>
+
           <Button
             disabled={!this.props.cartProducts.length}
             type="primary"
@@ -123,13 +175,14 @@ const mapStateToProps = (state: any) => {
     city: state.cartReducer.currectInput.city,
     street: state.cartReducer.currectInput.street,
     index: state.cartReducer.currectInput.index,
-    userId: state.authReducer.data.userId
+    userId: state.authReducer.data.userId,
   };
 };
 
 export default connect(mapStateToProps, {
   CartInputAC,
+  CartAddCountProductAC,
   SiteAddFetchServerAC,
-  OrderAddFetchServerAC,
+  CardOrderAddFetchServerAC,
   CartOpenConfirmModelAC,
 })(Cart);

@@ -17,7 +17,8 @@ import {
 
 import {
   addOrderFetchServer,
-  loadOrderFetchServer
+  loadOrderFetchServer,
+  OrderRedactFetchServer
 } from './order.saga'
 import { takeEvery } from "redux-saga/effects";
 
@@ -36,7 +37,8 @@ function* watchFetchDog() {
   yield takeEvery('Site/SiteCheackFetchServerAC', cheackSite)
   yield takeEvery('Site/SiteAddFetchServerAC', addSite)
 
-  yield takeEvery('Order/OrderAddFetchServerAC', addOrderFetchServer)
+  yield takeEvery('Order/OrderRedactFetchServerAC', OrderRedactFetchServer)
+  yield takeEvery('Cart/CardOrderAddFetchServerAC', addOrderFetchServer)
   yield takeEvery('Order/OrderLoadFetchServerAC', loadOrderFetchServer)
 }
 export default watchFetchDog;
