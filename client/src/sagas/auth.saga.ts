@@ -8,7 +8,7 @@ const cookies = new Cookies();
 
 function* RegfetchServerAsync(action: any) {
   try {
-    yield axios.post("auth/register", {
+    yield axios.post("/api/auth/register", {
       email: action.payload.email,
       password: action.payload.password,
     });
