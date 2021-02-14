@@ -15,6 +15,7 @@ OrderRouter.post("/addOrder", async function (req, res) {
     products,
     price
   } = req.body;
+  console.log(req.body)
   const {
     siteName,
     refreshToken
