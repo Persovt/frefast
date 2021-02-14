@@ -2,6 +2,7 @@ import {
   AuthfetchServerAsync,
   RegfetchServerAsync,
   ValidateTokenfetchServerAsync,
+  LogoutfetchServerAsync
 } from "./auth.saga";
 import {
   AddNewProduct,
@@ -20,6 +21,9 @@ import {
   loadOrderFetchServer,
   OrderRedactFetchServer
 } from './order.saga'
+import {
+  applyConfig
+} from './admin.saga'
 import { takeEvery } from "redux-saga/effects";
 
 function* watchFetchDog() {
@@ -29,6 +33,8 @@ function* watchFetchDog() {
     "Auth/AuthValidateTokenFetchServerAc",
     ValidateTokenfetchServerAsync
   );
+yield takeEvery('Auth/AuthLogoutFetchServerAc' , LogoutfetchServerAsync)
+
   yield takeEvery("Store/StoreAddProductFetchServerAC", AddNewProduct);
   yield takeEvery("Store/StoreLoadProductFetchServerAC", LoadProduct);
   yield takeEvery("Store/StoreDeleteProductFetchServerAC", DeleteProduct);
@@ -40,5 +46,7 @@ function* watchFetchDog() {
   yield takeEvery('Order/OrderRedactFetchServerAC', OrderRedactFetchServer)
   yield takeEvery('Cart/CardOrderAddFetchServerAC', addOrderFetchServer)
   yield takeEvery('Order/OrderLoadFetchServerAC', loadOrderFetchServer)
+
+  yield takeEvery('Admin/AdminApplyConfigAC', applyConfig)
 }
 export default watchFetchDog;

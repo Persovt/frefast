@@ -16,7 +16,7 @@ module.exports = {
     // where you want to run the react-dev-server
     react: 3456,
     // where you serve your api (make sure to serve it on that port)
-    api: 5000
+    api: 5005
   },
   // a path to an optional script to run after builds
   postBuildScript: './postBuildScript.js',

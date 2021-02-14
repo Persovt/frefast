@@ -14,6 +14,23 @@ SiteRouter.post("/cheackSite", async function (req, res) {
   const candidat = await SiteShema.findOne({
     name: siteName
   });
+console.log(candidat)
+  if (!candidat) res.status(400).json({
+    message: "Site not found "
+  });
+
+  res.cookie("siteName", siteName);
+  res.status(201).json({candidat});
+});
+SiteRouter.post("/redactSite", async function (req, res) {
+  const {
+    priceDelivery
+  } = req.body;
+
+  console.log(siteName);
+  const candidat = await SiteShema.findOne({
+    name: siteName
+  });
 
   if (!candidat) res.status(400).json({
     message: "Site not found "
@@ -22,7 +39,6 @@ SiteRouter.post("/cheackSite", async function (req, res) {
   res.cookie("siteName", siteName);
   res.status(201).json(candidat);
 });
-
 SiteRouter.post("/addSite", async function (req, res) {
   const {
     siteName

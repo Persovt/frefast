@@ -1,7 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import { List, message, Avatar, Collapse, Button, Layout } from "antd";
+import {
+  List,
+  message,
+  Avatar,
+  Collapse,
+  Button,
+  Layout,
+  InputNumber,
+} from "antd";
 import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {
   OrderLoadFetchServerAC,
   OrderRedactFetchServerAC,
@@ -9,19 +18,25 @@ import {
 import { Menu } from "antd";
 import { GiShoppingCart } from "react-icons/gi";
 import { FiSettings } from "react-icons/fi";
+import { FaMoneyCheckAlt } from 'react-icons/fa'
 import {
-  MailOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+  AdminInputAC,
+  AdminApplyConfigAC,
+} from "../state/reducer/admin.reducer";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 const { Panel } = Collapse;
 class Admin extends React.Component<any, any> {
   componentDidMount() {
     this.props.OrderLoadFetchServerAC();
+    console.log(this.props.page);
   }
-
+  componentDidUpdate() {
+    console.log(this.props.page);
+  }
+  changeHandler = (event: any) => {
+    return { value: event.target.value, name: event.target.name };
+  };
   callback(key: any) {
     console.log(key);
   }
@@ -35,14 +50,22 @@ class Admin extends React.Component<any, any> {
   };
   statusOrder = (status: any) => {
     switch (status) {
+      case "delivered":
+        return (
+          <p style={{ color: "green", margin: 0 }}>Статус заказа: {status}</p>
+        );
       case "sended":
-        return <text style={{ color: "green" }}>{status}</text>;
+        return (
+          <p style={{ color: "green", margin: 0 }}>Статус заказа: {status}</p>
+        );
 
       case "await":
-        return <text style={{ color: "orange" }}>{status}</text>;
+        return (
+          <p style={{ color: "orange", margin: 0 }}>Статус заказа: {status}</p>
+        );
 
       default:
-        return <text> {status} </text>;
+        return <p style={{ margin: 0 }}> Статус заказа: {status} </p>;
     }
   };
   render() {
@@ -75,13 +98,16 @@ class Admin extends React.Component<any, any> {
                     color: "silver",
                   }}
                 >
-                  Баланс: 100
+                  Баланс: {this.props.balance} ₽
                 </p>
                 <Menu.Item key="1" icon={<GiShoppingCart />}>
-                  Заказы
+                  <Link to="/admin">Заказы</Link>
                 </Menu.Item>
                 <Menu.Item key="2" icon={<FiSettings />}>
-                  Настройки
+                  <Link to="/admin/settings">Настройки</Link>
+                </Menu.Item>
+                <Menu.Item key="3" icon={<FaMoneyCheckAlt />}>
+                  Вывести деньги
                 </Menu.Item>
               </Menu>
             </Sider>
@@ -89,94 +115,113 @@ class Admin extends React.Component<any, any> {
               <Container>
                 <div className="demo-infinite-container">
                   <Collapse defaultActiveKey={["0"]} onChange={this.callback}>
-                    {this.props.order.map((item: any, index: number) => {
-                      return (
-                        <Panel
-                          header={
-                            <>
-                              <p style={{ margin: 0 }}>
-                                {" "}
-                                ID заказа: {item._id}{" "}
-                              </p>
-                              <p style={{ margin: 0 }}>
-                                Статус заказа:
-                                {this.statusOrder(item.status)}
-                              </p>
-                              {item.status === "await" ? (
-                                <Button
-                                  onClick={() =>
-                                    this.props.OrderRedactFetchServerAC({
-                                      status: "sended",
-                                      id: item._id,
-                                    })
-                                  }
-                                >
-                                  Отправленно
-                                </Button>
-                              ) : null}
-                            </>
-                          }
-                          key={index}
-                        >
-                          <p className="">Адрес: {item.data.adres} </p>
-                          <p className="">Город: {item.data.city} </p>
-                          <p className="">Индекс: {item.data.index} </p>
-                          <p className="">Улица: {item.data.street} </p>
-
-                          <h5>Товары:</h5>
-
-                          <List
-                            dataSource={item.products}
-                            renderItem={(item: any) => (
-                              <List.Item key={item._id}>
-                                <List.Item.Meta
-                                  avatar={<Avatar src={item.img} />}
-                                  title={<a href="#">{item.name}</a>}
-                                  description={item.description}
-                                />
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  <p className="" style={{ margin: 0 }}>
-                                    Цена:{" "}
-                                    {item.price
-                                      ? item.price * item?.count
-                                      : "free"}{" "}
+                    {this.props.page !== 2 ? (
+                      this.props.order.map((item: any, index: number) => {
+                        return (
+                          <Panel
+                            header={
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <div>
+                                  <p style={{ margin: 0 }}>
+                                    {" "}
+                                    ID заказа: {item._id}{" "}
                                   </p>
-                                  <p className="" style={{ margin: 0 }}>
-                                    Колличество: {item.count}{" "}
+                                  <p style={{ margin: 0 }}>
+                                    {this.statusOrder(item.status)}
                                   </p>
                                 </div>
-                              </List.Item>
-                            )}
-                          ></List>
-                        </Panel>
-                      );
-                    })}
-                  </Collapse>
 
-                  {/* <List
-              dataSource={this.props.order}
-              renderItem={(item: any) => (
-                <List.Item key={item._id}>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    }
-                    title={<a href="https://ant.design">{}</a>}
-                    //description={item.name}
-                  />
-                  <p className="">Adres: {item.data.adres} </p>
-                  <p className="">City: {item.data.city} </p>
-                  <p className="">Index: {item.data.index} </p>
-                  <p className="">Street: {item.data.street} </p>
-                  <p className="">Status: {item.status} </p>
-                </List.Item>
-              )}
-            ></List> */}
+                                {item.status === "await" ? (
+                                  <Button
+                                    onClick={() =>
+                                      this.props.OrderRedactFetchServerAC({
+                                        status: "sended",
+                                        id: item._id,
+                                      })
+                                    }
+                                  >
+                                    Отправить
+                                  </Button>
+                                ) : null}
+                              </div>
+                            }
+                            key={index}
+                          >
+                            <p className="">Адрес: {item.data.adres} </p>
+                            <p className="">Город: {item.data.city} </p>
+                            <p className="">Индекс: {item.data.index} </p>
+                            <p className="">Улица: {item.data.street} </p>
+
+                            <h5>Товары:</h5>
+
+                            <List
+                              dataSource={item.products}
+                              renderItem={(item: any) => (
+                                <List.Item key={item._id}>
+                                  <List.Item.Meta
+                                    avatar={<Avatar src={item.img} />}
+                                    title={<a href="#">{item.name}</a>}
+                                    description={item.description}
+                                  />
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                    }}
+                                  >
+                                    <p className="" style={{ margin: 0 }}>
+                                      Цена:{" "}
+                                      {item.price
+                                        ? item.price * item?.count
+                                        : "free"}{" "}
+                                    </p>
+                                    <p className="" style={{ margin: 0 }}>
+                                      Колличество: {item.count}{" "}
+                                    </p>
+                                  </div>
+                                </List.Item>
+                              )}
+                            ></List>
+                          </Panel>
+                        );
+                      })
+                    ) : (
+                      <div className="">
+                        <div
+                          className="priceDelivery"
+                          style={{ display: "flex", alignItems: "center" }}
+                        >
+                          <p style={{ margin: 0, marginRight: 10 }}>
+                            Цена доставки:{" "}
+                          </p>
+
+                          <InputNumber
+                            defaultValue={this.props.priceDelivery}
+                            onChange={(value: any) =>
+                              this.props.AdminInputAC({
+                                name: "priceDelivery",
+                                value,
+                              })
+                            }
+                          />
+                        </div>
+                        <Button
+                          type="primary"
+                          style={{ margin: 10 }}
+                          onClick={() =>
+                            this.props.AdminApplyConfigAC(this.props.input)
+                          }
+                        >
+                          Применить
+                        </Button>
+                      </div>
+                    )}
+                  </Collapse>
                 </div>
               </Container>
             </Content>
@@ -189,12 +234,17 @@ class Admin extends React.Component<any, any> {
 
 const mapStateToProps = (state: any) => {
   return {
+    priceDelivery: state.siteReducer.config.config.priceDelivery,
     data: state.authReducer.data,
-    order: state.orderReducer?.orders,
+    order: state.orderReducer.orders,
+    balance: state.siteReducer.config.balance,
+    input: state.adminReducer.currectInput,
   };
 };
 
 export default connect(mapStateToProps, {
   OrderLoadFetchServerAC,
   OrderRedactFetchServerAC,
+  AdminInputAC,
+  AdminApplyConfigAC,
 })(Admin);

@@ -16,6 +16,15 @@ function* RegfetchServerAsync(action: any) {
     console.log(error.response.data.message);
   }
 }
+
+function* LogoutfetchServerAsync(action: any) {
+  try {
+    yield axios.post("/api/auth/logout");
+    yield put(AuthChangeStatusAC(false));
+  } catch (error) {
+    console.log(error.response.data.message);
+  }
+}
 function* AuthfetchServerAsync(action: any) {
   try {
     
@@ -27,7 +36,7 @@ function* AuthfetchServerAsync(action: any) {
       password: action.payload.password,
       visitorId: result.visitorId,
     });
-
+   
     yield ValidateTokenfetchServerAsync();
   } catch (error) {
     console.log(error.response.data.message);
@@ -68,4 +77,5 @@ export {
   ValidateTokenfetchServerAsync,
   AuthfetchServerAsync,
   RegfetchServerAsync,
+  LogoutfetchServerAsync,
 };

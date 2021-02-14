@@ -17,7 +17,9 @@ function* addOrderFetchServer(action: any): any {
       street,
       userId,
       products,
+      price
     } = action.payload;
+    console.log(action.payload)
     console.log(cookies.get("siteName"));
     if (adres && city && index && street)
       yield axios.post("/api/order/addOrder", {
@@ -28,6 +30,7 @@ function* addOrderFetchServer(action: any): any {
         street,
         userId,
         products,
+        price
       });
     if (siteName) {
       const res = yield axios.post("/api/apisite/addSite", {
@@ -41,7 +44,7 @@ function* addOrderFetchServer(action: any): any {
   }
 }
 
-function* loadOrderFetchServer(action: any): any {
+function* loadOrderFetchServer(): any {
   try {
     //const { siteName } = action.payload;
 
@@ -49,7 +52,7 @@ function* loadOrderFetchServer(action: any): any {
      // siteName
     });
     yield put(OrderSetAc(res.data))
-    console.log(res.data)
+   
   } catch (error) {
     console.log(error.response.data.message);
   }
@@ -57,13 +60,13 @@ function* loadOrderFetchServer(action: any): any {
 function* OrderRedactFetchServer(action: any): any {
   try {
     const { status,id } = action.payload;
-console.log(status)
+
     const res = yield axios.post("/api/order/redact", {
       status,id
     });
    
-    console.log(res.data)
    
+    yield loadOrderFetchServer()
     
   } catch (error) {
     console.log(error.response.data.message);

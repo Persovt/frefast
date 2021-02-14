@@ -4,8 +4,10 @@ const AuthRouter = require('./auth.routes')
 const StoreRouter = require('./store.routes')
 const SiteRouter = require('./site.routes')
 const OrderRouter = require('./order.routes')
+const AdminRouter = require('./admin.routes')
 const routes = Router();
 
+routes.use('/admin', AdminRouter)
 routes.use("/auth", AuthRouter);
 routes.use("/store", StoreRouter);
 routes.use("/site", SiteRouter);

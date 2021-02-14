@@ -10,6 +10,25 @@ const sha512 = require("js-sha512");
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 
+AuthRouter.post("/logout", async function (req, res) {
+  try {
+    console.log(123)
+    res.cookie("accesToken", "", {
+      maxAge: 0
+    });
+    res.cookie("refreshToken", "", {
+      maxAge: 0,
+      httpOnly: true,
+      //secure: true,
+    });
+
+    res.status(201).json({
+      message: "Logout succes!"
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 AuthRouter.post("/register", async function (req, res) {
   try {

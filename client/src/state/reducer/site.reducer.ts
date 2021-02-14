@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: any = {
-siteName: ''
+siteName: '',
+config:{}
 };
 
 const productReleases = createSlice({
@@ -25,6 +26,9 @@ const productReleases = createSlice({
    SiteDeleteFetchServerAC: (state, action) => {
 
    },
+   SiteSetConfigAC: (state, action) => {
+    state.config = action.payload
+   }
    
   },
 });
@@ -35,6 +39,7 @@ export const {
     SiteCheackFetchServerAC,
     SiteLoadFetchServerAC,
     SiteAddFetchServerAC,
+    SiteSetConfigAC,
     SiteRedactFetchServerAC,
     SiteDeleteFetchServerAC
 } = actions;

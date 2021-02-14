@@ -1,9 +1,8 @@
 const Router = require('express')
-const SiteShema = require('../module/site.module')
 const RefreshModel = require('../module/refresh.module')
 const OrderModel = require('../module/order.module')
 const StoreModel = require('../module/store.module')
-
+const SiteShema = require('../module/site.module')
 const OrderRouter = Router();
 
 OrderRouter.post("/addOrder", async function (req, res) {
@@ -13,16 +12,18 @@ OrderRouter.post("/addOrder", async function (req, res) {
     index,
     street,
     userId,
-    products
+    products,
+    price
   } = req.body;
   const {
     siteName,
     refreshToken
   } = req.cookies;
 
-
+ 
   products.map(async (item) => {
-    console.log(item.amount)
+
+
 
     await StoreModel.updateOne({
       _id: item._id
@@ -31,6 +32,7 @@ OrderRouter.post("/addOrder", async function (req, res) {
     });
 
   })
+
   const newOrder = new OrderModel({
     shopName: siteName,
     userId,
@@ -42,6 +44,7 @@ OrderRouter.post("/addOrder", async function (req, res) {
     },
     status: "await",
     products,
+    price
   });
 
   newOrder.save();
@@ -55,12 +58,31 @@ OrderRouter.post("/redact", async function (req, res) {
     status,
     id
   } = req.body;
-console.log(req.body)
+  const {
+    siteName,
+    refreshToken
+  } = req.cookies;
+  const orderCandidat = await OrderModel.findOne({
+    _id: id
+  })
+
+  const siteCandidat = await SiteShema.findOne({
+    name: siteName
+  })
+ 
+  if (status === 'delivered')
+    await SiteShema.updateOne({
+      name: siteName
+    }, {
+      balance: +orderCandidat.price + +siteCandidat.balance
+    })
+
   await OrderModel.updateOne({
     _id: id
   }, {
     status: status,
   });
+
   res.status(201).json({
     message: 'redacted!'
   });

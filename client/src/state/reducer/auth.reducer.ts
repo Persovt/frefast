@@ -13,6 +13,7 @@ const productReleases = createSlice({
   initialState,
   reducers: {
     AuthLoginFetchServerAc: () => {},
+    AuthLogoutFetchServerAc: () => {},
     AuthRegFetchServerAc: () => {},
     AuthValidateTokenFetchServerAc: () => {},
     AuthInputAC: (state, action) => {
@@ -21,10 +22,15 @@ const productReleases = createSlice({
     },
     AuthSetDataAC: (state, action) => {
       state.data = action.payload;
+     
+
       console.log(action.payload, state);
     },
     AuthChangeStatusAC: (state, action) => {
       state.loggin = action.payload;
+
+      if(!action.payload)
+        state.data = {}
     },
   },
 });
@@ -32,6 +38,7 @@ const productReleases = createSlice({
 const { actions, reducer } = productReleases;
 
 export const {
+  AuthLogoutFetchServerAc,
   AuthInputAC,
   AuthSetDataAC,
   AuthChangeStatusAC,

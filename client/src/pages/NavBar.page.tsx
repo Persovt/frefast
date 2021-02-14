@@ -37,48 +37,48 @@ class NavBar extends React.Component<any, any> {
           <Menu.Item
             key="/main"
             icon={<HomeOutlined />}
-            style={{ flexGrow: 1, textAlign: "center" }}
+            style={{ flexGrow: 1, justifyContent: "center", display: 'flex', alignItems: 'center' }}
           >
             <Link to="/main">Main</Link>
           </Menu.Item>
           <Menu.Item
             key="/cart"
             icon={<GiShoppingCart />}
-            style={{ flexGrow: 1, textAlign: "center" }}
+            style={{ flexGrow: 1, justifyContent: "center", display: 'flex', alignItems: 'center' }}
           >
             <Link to="/cart">Cart</Link>
           </Menu.Item>
           <Menu.Item
             key="/store"
             icon={<ShopOutlined />}
-            style={{ flexGrow: 1, textAlign: "center" }}
+            style={{ flexGrow: 1, justifyContent: "center", display: 'flex', alignItems: 'center' }}
           >
             <Link to="/store">Store</Link>
           </Menu.Item>
 
           {this.props.role ? (
             <Menu.Item
-              key="/Profile"
+              key="/profile"
               icon={<CgProfile />}
-              style={{ flexGrow: 1, textAlign: "center" }}
+              style={{ flexGrow: 1, justifyContent: "center", display: 'flex', alignItems: 'center' }}
             >
               <Link to="/profile">Profile</Link>
             </Menu.Item>
           ) : (
             <Menu.Item
-              key="/Auth"
+              key="/auth"
               onClick={() => this.props.NavBarChangeVisibleAuthSideBarAC(true)}
               icon={<BsPeople />}
-              style={{ flexGrow: 1, textAlign: "center" }}
+              style={{ flexGrow: 1, justifyContent: "center", display: 'flex', alignItems: 'center' }}
             >
               Auth
             </Menu.Item>
           )}
           {this.props.role === "admin" ? (
             <Menu.Item
-              key="/Admin"
+              key="/admin"
               icon={<RiAdminLine />}
-              style={{ flexGrow: 1, textAlign: "center" }}
+              style={{ flexGrow: 1, justifyContent: "center", display: 'flex', alignItems: 'center' }}
             >
               <Link to="/admin">Admin</Link>
             </Menu.Item>

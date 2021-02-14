@@ -1,11 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import { AuthValidateTokenFetchServerAc,AuthInputAC } from "./state/reducer/auth.reducer";
+import {
+  AuthValidateTokenFetchServerAc,
+  AuthInputAC,
+} from "./state/reducer/auth.reducer";
 import { Layout, Menu, Breadcrumb } from "antd";
-import {SiteCheackFetchServerAC} from './state/reducer/site.reducer'
-import { Main, Cart, Store, Profile, NavBar, Admin,ProductPage } from "./pages/index.page";
+import { SiteCheackFetchServerAC } from "./state/reducer/site.reducer";
+import {
+  Main,
+  Cart,
+  Store,
+  Profile,
+  NavBar,
+  Admin,
+  ProductPage,
+} from "./pages/index.page";
 import "antd/dist/antd.css";
 import "./App.css";
+import { IoLogoVk } from "react-icons/io";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   Route,
@@ -23,19 +35,23 @@ class App extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    
-   
-    this.props.SiteCheackFetchServerAC(window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast')
+    this.props.SiteCheackFetchServerAC(
+      window.location.host.split(".")[1]
+        ? window.location.host.split(".")[0]
+        : "frefast"
+    );
 
-  // this.props.AuthInputAC({ value: window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast', name: 'siteName' })
+    // this.props.AuthInputAC({ value: window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast', name: 'siteName' })
     //cookies.set('siteName')
-   this.props.AuthValidateTokenFetchServerAc();
+    this.props.AuthValidateTokenFetchServerAc();
   }
 
   componentDidUpdate() {
-  
-    this.props.SiteCheackFetchServerAC(window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast')
-
+    this.props.SiteCheackFetchServerAC(
+      window.location.host.split(".")[1]
+        ? window.location.host.split(".")[0]
+        : "frefast"
+    );
 
     //this.props.AuthInputAC({ value: window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'frefast', name: 'siteName' })
     if (this.props.accesToken)
@@ -45,7 +61,7 @@ class App extends React.Component<any, any> {
   }
 
   render() {
-   // console.log(window.location.host.split('.')[1] ? window.location.host.split('.')[0] : '/')
+    // console.log(window.location.host.split('.')[1] ? window.location.host.split('.')[0] : '/')
     let router; //Лучше уйди и не трогай нахуй обьет
     switch (this.props.role) {
       case "user":
@@ -86,12 +102,16 @@ class App extends React.Component<any, any> {
               <Profile />
             </Route>
             <Route path="/admin" exact>
-              <Admin />
+              <Admin page={1} />
             </Route>
+            <Route path="/admin/settings" exact>
+              <Admin page={2} />
+            </Route>
+
             <Route path="/productpage" exact>
               <ProductPage />
             </Route>
-            
+
             <Redirect to="/main" />
           </Switch>
         );
@@ -118,31 +138,47 @@ class App extends React.Component<any, any> {
     return (
       <>
         <Router>
-          <Header style={{backgroundColor: 'white'}}>
+          <Header style={{ backgroundColor: "white" }}>
             <NavBar />
           </Header>
           <Content style={{ padding: "0 50px" }}>
-          
             <Layout
               className="site-layout-background"
               style={{ padding: "24px 0" }}
             >
-               {/* <Sider className="site-layout-background" style={{backgroundColor: 'black'}} width={200}>
+              {/* <Sider className="site-layout-background" style={{backgroundColor: 'black'}} width={200}>
               Реклама
             </Sider> */}
-            <Content style={{ padding: '0 24px', minHeight: 280 }}> 
-           
-            {router}
-            </Content>
-             
+              <Content style={{ padding: "0 24px", minHeight: 280 }}>
+                {router}
+              </Content>
             </Layout>
           </Content>
-          <Footer style={{ textAlign: "center",backgroundColor: 'white' }}>
-           frefast.com ©2021 
+          <Footer
+            style={{
+              textAlign: "center",
+              backgroundColor: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <div className="" style={{ fontWeight: 700 }}>
+              {" "}
+              frefast.com ©2021{" "}
+            </div>
 
-
-<a href="https://www.free-kassa.ru/"><img src="https://www.free-kassa.ru/img/fk_btn/9.png"/></a>
-
+            <a
+              style={{
+                fontSize: "1.5rem",
+                color: "black",
+              }}
+              target="_blank"
+              href="https://vk.com/frefast2"
+            >
+              <IoLogoVk />
+            </a>
           </Footer>
         </Router>
       </>
@@ -161,5 +197,5 @@ const mapStateToProps = (state: any) => {
 export default connect(mapStateToProps, {
   AuthValidateTokenFetchServerAc,
   AuthInputAC,
-  SiteCheackFetchServerAC
+  SiteCheackFetchServerAC,
 })(App);

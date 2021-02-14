@@ -1,14 +1,15 @@
 import { put } from "redux-saga/effects";
+import {SiteSetConfigAC} from '../state/reducer/site.reducer'
 const axios = require("axios").default;
 
 function* cheackSite(action: any): any {
     try {
         
-       console.log(action.payload)
+       
       const res = yield axios.post("/api/site/cheackSite", {siteName: action.payload});
   
-      console.log(res.data)
-     
+      
+     yield put(SiteSetConfigAC(res.data.candidat))
     } catch (error) {
       
       console.log(error.response.data.message);
@@ -17,10 +18,10 @@ function* cheackSite(action: any): any {
   function* addSite(action: any): any {
     try {
         const { siteName } = action.payload
-       console.log(action.payload)
+     
       const res = yield axios.post("/api/site/addSite", {siteName});
   
-      console.log(res.data)
+    
      
     } catch (error) {
       
