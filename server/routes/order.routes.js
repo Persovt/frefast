@@ -6,7 +6,18 @@ const SiteShema = require('../module/site.module')
 const OrderRouter = Router();
 
 OrderRouter.post("/kassa", async function (req, res) {
-  console.log(req.body)
+  const {
+    ik_pm_no,
+    ik_inv_st
+  } = req.body
+  if (ik_inv_st === "success") {
+    await OrderModel.updateOne({
+      _id: ik_pm_no
+    }, {
+      status: 'await',
+    });
+  }
+
 })
 
 OrderRouter.post("/addOrder", async function (req, res) {
@@ -19,13 +30,13 @@ OrderRouter.post("/addOrder", async function (req, res) {
     products,
     price
   } = req.body;
- 
+
   const {
     siteName,
     refreshToken
   } = req.cookies;
 
- 
+
   products.map(async (item) => {
 
 
@@ -47,14 +58,14 @@ OrderRouter.post("/addOrder", async function (req, res) {
       index,
       street,
     },
-    status: "await",
+    status: "pending",
     products,
     price
   });
 
   newOrder.save();
-
-  res.status(201).json("order added");
+  
+  res.status(201).json({id: newOrder._id});
 });
 
 OrderRouter.post("/redact", async function (req, res) {
@@ -74,7 +85,7 @@ OrderRouter.post("/redact", async function (req, res) {
   const siteCandidat = await SiteShema.findOne({
     name: siteName
   })
- 
+
   if (status === 'delivered')
     await SiteShema.updateOne({
       name: siteName
