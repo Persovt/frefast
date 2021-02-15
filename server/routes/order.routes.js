@@ -5,6 +5,10 @@ const StoreModel = require('../module/store.module')
 const SiteShema = require('../module/site.module')
 const OrderRouter = Router();
 
+OrderRouter.post("/kassa", async function (req, res) {
+  console.log(req.body)
+})
+
 OrderRouter.post("/addOrder", async function (req, res) {
   const {
     adres,
@@ -15,7 +19,7 @@ OrderRouter.post("/addOrder", async function (req, res) {
     products,
     price
   } = req.body;
-  console.log(req.body)
+ 
   const {
     siteName,
     refreshToken

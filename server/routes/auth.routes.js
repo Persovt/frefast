@@ -252,10 +252,6 @@ AuthRouter.post("/verifyToken", async function (req, res) {
     res.status(500).send(error);
   }
 });
-AuthRouter.post("/logout", async function (req, res) {
-  try {} catch (error) {
-    res.status(500).send(error);
-  }
-});
+
 
 module.exports = AuthRouter
